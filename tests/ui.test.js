@@ -325,3 +325,4 @@ test("Submit the Form with Valid Values", async ({ page }) => {
     expect(page.url()).toBe(baseURL + "/catalog");
     await page.click('#logoutBtn');
 })
+

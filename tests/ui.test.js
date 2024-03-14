@@ -175,3 +175,153 @@ test("Submit form with empty Password input field", async ({ page }) => {
         expect(page.url()).toBe(baseURL + "/login")
     })
 })
+
+
+
+test("Submit the Register Form with Empty Values", async ({ page }) => {
+    await page.goto(baseURL);
+    await page.waitForSelector('nav.navbar');
+
+    await page.click('a[href="/register"]');
+    await page.click('input[type="submit"]');
+
+    page.on('dialog', async dialog => {
+        expect(dialog.type()).toContain('alert');
+        expect(dialog.message()).toContain('All fields are required!')
+        await dialog.accept();
+
+        await page.$('a[href="/register"]');
+        expect(page.url()).toBe(baseURL + "/register")
+    })
+})
+
+
+test("Submit the Register Form with Empty email field", async ({ page }) => {
+    await page.goto(baseURL);
+    await page.waitForSelector('nav.navbar');
+
+    await page.click('a[href="/register"]');
+    await page.fill('#password', testPassword)
+    await page.fill('#repeat-pass', testPassword)
+    await page.click('input[type="submit"]');
+
+    page.on('dialog', async dialog => {
+        expect(dialog.type()).toContain('alert');
+        expect(dialog.message()).toContain('All fields are required!')
+        await dialog.accept();
+
+        await page.$('a[href="/register"]');
+        expect(page.url()).toBe(baseURL + "/register")
+    })
+})
+
+test("Submit the Register Form with Empty Password field", async ({ page }) => {
+    await page.goto(baseURL);
+    await page.waitForSelector('nav.navbar');
+
+    await page.click('a[href="/register"]');
+    await page.fill('#email', testEmail)
+    await page.fill('#repeat-pass', testPassword)
+    await page.click('input[type="submit"]');
+
+    page.on('dialog', async dialog => {
+        expect(dialog.type()).toContain('alert');
+        expect(dialog.message()).toContain('All fields are required!')
+        await dialog.accept();
+
+        await page.$('a[href="/register"]');
+        expect(page.url()).toBe(baseURL + "/register")
+    })
+})
+
+test("Submit the Register Form with Empty Confirm password field", async ({ page }) => {
+    await page.goto(baseURL);
+    await page.waitForSelector('nav.navbar');
+
+    await page.click('a[href="/register"]');
+    await page.fill('#email', testEmail)
+    await page.fill('#password', testPassword)
+    await page.click('input[type="submit"]');
+
+    page.on('dialog', async dialog => {
+        expect(dialog.type()).toContain('alert');
+        expect(dialog.message()).toContain('All fields are required!')
+        await dialog.accept();
+
+        await page.$('a[href="/register"]');
+        expect(page.url()).toBe(baseURL + "/register")
+    })
+})
+
+test("Submit the Register Form with Empty email & password fields", async ({ page }) => {
+    await page.goto(baseURL);
+    await page.waitForSelector('nav.navbar');
+
+    await page.click('a[href="/register"]');
+    await page.fill('#repeat-pass', testPassword)
+    await page.click('input[type="submit"]');
+
+    page.on('dialog', async dialog => {
+        expect(dialog.type()).toContain('alert');
+        expect(dialog.message()).toContain('All fields are required!')
+        await dialog.accept();
+
+        await page.$('a[href="/register"]');
+        expect(page.url()).toBe(baseURL + "/register")
+    })
+})
+
+test("Submit the Register Form with Empty Password & Confirm password fields", async ({ page }) => {
+    await page.goto(baseURL);
+    await page.waitForSelector('nav.navbar');
+
+    await page.click('a[href="/register"]');
+    await page.fill('#email', testEmail)
+    await page.click('input[type="submit"]');
+
+    page.on('dialog', async dialog => {
+        expect(dialog.type()).toContain('alert');
+        expect(dialog.message()).toContain('All fields are required!')
+        await dialog.accept();
+
+        await page.$('a[href="/register"]');
+        expect(page.url()).toBe(baseURL + "/register")
+    })
+})
+
+test("Submit the Register Form with Empty Email & Confirm password fields", async ({ page }) => {
+    await page.goto(baseURL);
+    await page.waitForSelector('nav.navbar');
+
+    await page.click('a[href="/register"]');
+    await page.fill('#email', testEmail)
+    await page.fill('#repeat-pass', testPassword)
+    await page.click('input[type="submit"]');
+
+    page.on('dialog', async dialog => {
+        expect(dialog.type()).toContain('alert');
+        expect(dialog.message()).toContain('All fields are required!')
+        await dialog.accept();
+
+        await page.$('a[href="/register"]');
+        expect(page.url()).toBe(baseURL + "/register")
+    })
+})
+
+const registerEmail = "pesho2@abv.bg"
+
+test("Submit the Form with Valid Values", async ({ page }) => {
+    await page.goto(baseURL);
+    await page.waitForSelector('nav.navbar');
+
+    await page.click('a[href="/register"]');
+    await page.fill('#email', registerEmail)
+    await page.fill('#password', testPassword)
+    await page.fill('#repeat-pass', testPassword)
+    await page.click('input[type="submit"]');
+
+    await page.$('a[href="/catalog"]');
+
+    expect(page.url()).toBe(baseURL + "/catalog");
+    await page.click('#logoutBtn');
+})

@@ -326,3 +326,116 @@ test("Submit the Form with Valid Values", async ({ page }) => {
     await page.click('#logoutBtn');
 })
 
+test('Add book with correct data', async({ page }) => {
+    await page.goto(baseURL + "/login");
+
+    await page.fill('#email', testEmail)
+    await page.fill('#password', testPassword)
+
+    await Promise.all([
+          page.click('input[type="submit"]'),
+          page.waitForURL(baseURL + "/catalog")
+    ]);
+
+    await page.click('a[href="/create"]');
+    await page.waitForSelector('#create-form');
+    await page.fill('#title', 'Test book');
+    await page.fill('#description', 'This is the test book description');
+    await page.fill('#image', 'https://example.com/book-image.jpg');
+    await page.selectOption('#type', 'Fiction');
+
+    await page.click('#create-form input[type="submit"]');
+    
+    await page.waitForURL(baseURL + "/catalog")
+
+    expect(page.url()).toBe(baseURL + "/catalog")
+})
+
+test('Add book with empty title input field', async({ page }) => {
+    await page.goto(baseURL + "/login");
+
+    await page.fill('#email', testEmail)
+    await page.fill('#password', testPassword)
+
+    await Promise.all([
+          page.click('input[type="submit"]'),
+          page.waitForURL(baseURL + "/catalog")
+    ]);
+
+    await page.click('a[href="/create"]');
+    await page.waitForSelector('#create-form');
+    await page.fill('#description', 'This is the test book description');
+    await page.fill('#image', 'https://example.com/book-image.jpg');
+    await page.selectOption('#type', 'Fiction');
+
+    await page.click('#create-form input[type="submit"]');
+    
+    page.on('dialog', async dialog => {
+        expect(dialog.type()).toContain('alert');
+        expect(dialog.message()).toContain('All fields are required!')
+        await dialog.accept();
+
+        await page.$('a[href="/create"]');
+        expect(page.url()).toBe(baseURL + "/create")
+    })
+})
+
+test('Add book with empty image URl input field', async({ page }) => {
+    await page.goto(baseURL + "/login");
+
+    await page.fill('#email', testEmail)
+    await page.fill('#password', testPassword)
+
+    await Promise.all([
+          page.click('input[type="submit"]'),
+          page.waitForURL(baseURL + "/catalog")
+    ]);
+
+    await page.click('a[href="/create"]');
+    await page.waitForSelector('#create-form');
+
+    await page.fill('#title', 'Test book');
+    await page.fill('#description', 'This is the test book description');
+    await page.selectOption('#type', 'Fiction');
+
+    await page.click('#create-form input[type="submit"]');
+    
+    page.on('dialog', async dialog => {
+        expect(dialog.type()).toContain('alert');
+        expect(dialog.message()).toContain('All fields are required!')
+        await dialog.accept();
+
+        await page.$('a[href="/create"]');
+        expect(page.url()).toBe(baseURL + "/create")
+    })
+})
+
+test('Add book with empty description input field', async({ page }) => {
+    await page.goto(baseURL + "/login");
+
+    await page.fill('#email', testEmail)
+    await page.fill('#password', testPassword)
+
+    await Promise.all([
+          page.click('input[type="submit"]'),
+          page.waitForURL(baseURL + "/catalog")
+    ]);
+
+    await page.click('a[href="/create"]');
+    await page.waitForSelector('#create-form');
+    
+    await page.fill('#title', 'Test book');
+    await page.fill('#image', 'https://example.com/book-image.jpg');
+    await page.selectOption('#type', 'Fiction');
+
+    await page.click('#create-form input[type="submit"]');
+    
+    page.on('dialog', async dialog => {
+        expect(dialog.type()).toContain('alert');
+        expect(dialog.message()).toContain('All fields are required!')
+        await dialog.accept();
+
+        await page.$('a[href="/create"]');
+        expect(page.url()).toBe(baseURL + "/create")
+    })
+})

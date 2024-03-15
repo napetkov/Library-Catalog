@@ -339,7 +339,7 @@ test('Add book with correct data', async({ page }) => {
 
     await page.click('a[href="/create"]');
     await page.waitForSelector('#create-form');
-    await page.fill('#title', 'Test book');
+    await page.fill('#title', 'Test Book');
     await page.fill('#description', 'This is the test book description');
     await page.fill('#image', 'https://example.com/book-image.jpg');
     await page.selectOption('#type', 'Fiction');
@@ -394,7 +394,7 @@ test('Add book with empty image URl input field', async({ page }) => {
     await page.click('a[href="/create"]');
     await page.waitForSelector('#create-form');
 
-    await page.fill('#title', 'Test book');
+    await page.fill('#title', 'Test Book');
     await page.fill('#description', 'This is the test book description');
     await page.selectOption('#type', 'Fiction');
 
@@ -424,7 +424,7 @@ test('Add book with empty description input field', async({ page }) => {
     await page.click('a[href="/create"]');
     await page.waitForSelector('#create-form');
     
-    await page.fill('#title', 'Test book');
+    await page.fill('#title', 'Test Book');
     await page.fill('#image', 'https://example.com/book-image.jpg');
     await page.selectOption('#type', 'Fiction');
 
@@ -439,3 +439,45 @@ test('Add book with empty description input field', async({ page }) => {
         expect(page.url()).toBe(baseURL + "/create")
     })
 })
+
+test('Login and verify all books are displayed', async ({ page }) => {
+    await page.goto(baseURL + "/login");
+
+    await page.fill('#email', testEmail)
+    await page.fill('#password', testPassword)
+  
+    await Promise.all([
+      page.click('input[type="submit"]'), 
+      page.waitForURL(baseURL + "/catalog") 
+    ]);
+  
+    await page.waitForSelector('.dashboard');
+  
+    const bookElements = await page.$$('.other-books-list li');
+  
+    expect(bookElements.length).toBeGreaterThan(0);
+  });
+
+  test('Login and navigate to Details page', async ({ page }) => {
+    await page.goto(baseURL + "/login");
+
+    await page.fill('#email', testEmail)
+    await page.fill('#password', testPassword)
+  
+    await Promise.all([
+      page.click('input[type="submit"]'), 
+      page.waitForURL(baseURL + "/catalog") 
+    ]);
+
+    await page.click('a[href="/catalog"]');
+  
+    await page.waitForSelector('.otherBooks');
+  
+    await page.click('.otherBooks a.button');
+  
+    await page.waitForSelector('.book-information');
+  
+    const detailsPageTitle = await page.textContent('.book-information h3');
+
+    expect(detailsPageTitle).toBe('Test Book'); 
+  });

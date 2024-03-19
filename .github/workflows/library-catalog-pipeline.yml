@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  ui-tests:
+  build-test:
     runs-on: ubuntu-latest
     
     steps:
@@ -21,10 +21,10 @@ jobs:
     - name: Install dependancies
       run: npm install
     - name: Install Playwright
-      run: npx playwright instal
+      run: npx playwright install
     - name: Run backend
       run: npm run start-be &
     - name: Run frontend
       run: npm run start-fe &
-    - name: Run Integration tests
+    - name: Run Integration tests 
       run: npm run test

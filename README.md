@@ -1,0 +1,1 @@
+[![Build and Test](https://github.com/napetkov/Library-Catalog/actions/workflows/library-catalog-pipeline.yml/badge.svg)](https://github.com/napetkov/Library-Catalog/actions/workflows/library-catalog-pipeline.yml)

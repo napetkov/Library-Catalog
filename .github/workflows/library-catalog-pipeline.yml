@@ -26,5 +26,5 @@ jobs:
       run: npm run start-be &
     - name: Run frontend
       run: npm run start-fe &
-    - name: Run Integration tests 
-      run: npm run test
+    - name: Run UI tests 
+      run: npm run test-ui

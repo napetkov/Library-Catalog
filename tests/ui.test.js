@@ -497,17 +497,18 @@ test('Login and verify all books are displayed', async ({ page }) => {
     expect(isLogoutLinkVisible).toBe(true);
   });
   
-//   test('Verify redirection of Logout link after user login', async ({ page }) => {
-//     await page.goto(baseURL + "/login");
+  test('Verify redirection of Logout link after user login', async ({ page }) => {
+    await page.goto(baseURL + "/login");
 
-//     await page.fill('#email', testEmail)
-//     await page.fill('#password', testPassword)
+    await page.fill('#email', testEmail)
+    await page.fill('#password', testPassword)
 
-//     await page.click('input[type="submit"]');
-  
-//     const logoutLink = await page.$('a[href="javascript:void(0)"]');
-//     await logoutLink.click();
-  
-//     const redirectedURL = page.url();
-//     expect(redirectedURL).toBe(baseURL + '/catalog');
-//   });
+    await page.click('input[type="submit"]');
+    
+    const logoutLink = await page.$('a[href="javascript:void(0)"]');
+    await logoutLink.click();
+    await page.waitForURL('http://localhost:3000/')
+
+    const redirectedURL = page.url();
+    expect(redirectedURL).toBe(baseURL + '/catalog');
+  });

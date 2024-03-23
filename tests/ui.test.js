@@ -507,8 +507,8 @@ test('Login and verify all books are displayed', async ({ page }) => {
     
     const logoutLink = await page.$('a[href="javascript:void(0)"]');
     await logoutLink.click();
-    await page.waitForURL('http://localhost:3000/')
+    await page.waitForURL(baseURL)
 
     const redirectedURL = page.url();
-    expect(redirectedURL).toBe(baseURL + '/catalog');
+    expect(redirectedURL).toBe(baseURL);
   });

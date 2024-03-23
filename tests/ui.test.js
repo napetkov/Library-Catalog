@@ -1,5 +1,5 @@
 const { expect, test } = require('@playwright/test');
-const baseURL = "http://localhost:3000/";
+const baseURL = "http://localhost:3000";
 const testEmail = "peter@abv.bg";
 const testPassword = "123456";
 
@@ -510,5 +510,5 @@ test('Login and verify all books are displayed', async ({ page }) => {
     await page.waitForURL(baseURL)
 
     const redirectedURL = page.url();
-    expect(redirectedURL).toBe(baseURL);
+    expect(redirectedURL).toBe(baseURL + "/");
   });

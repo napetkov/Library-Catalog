@@ -1,5 +1,5 @@
 const { expect, test } = require('@playwright/test');
-const baseURL = "http://localhost:3000";
+const baseURL = "http://localhost:3000/";
 const testEmail = "peter@abv.bg";
 const testPassword = "123456";
 
